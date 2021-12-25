@@ -5,7 +5,7 @@ How to use:
 ```java
 //Initializates variable
 //1 is minimal value, 150 is maximal value, 50 is speed(in ms) and AnimationMode.Return is animation mode
-Animation animation = new Animation(1, 150, 50, AnimationMode.Return);
+Animation animation = new Animation(1, 150, 50, AnimationMode.End);
 
 //Sets minimal value
 animation.setMinValue(minValue);
