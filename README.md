@@ -24,7 +24,7 @@ animation.setSpeed(speed);
 //  Return - Makes animation from min value to max value and returns to min value
 //  Reverse - Makes animation from min value to max value, then returns to min value and again makes animation from min value to max value, it repeats infinitely
 //  Restart - Makes animation from min value to max value and it repeats infinitely
-//  NoDelay - Makes animation without delay
+//  NoDelay - Makes animation without delay, you also need to add another animation mode
 animation.setAnimationMode(mode);
 
 //Updates animation
