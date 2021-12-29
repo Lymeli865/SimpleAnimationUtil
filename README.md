@@ -6,6 +6,8 @@ How to use:
 //Initializates variable
 //1 is minimal value, 150 is maximal value, 50 is speed(in ms) and AnimationMode.Return is animation mode
 Animation animation = new Animation(1, 150, 50, AnimationMode.End);
+//Same as first, but this will make animation witout delay
+Animation animation = new Animation(1, 150, 50, AnimationMode.NoDelay, AnimationMode.End);
 
 //Sets minimal value
 animation.setMinValue(minValue);
@@ -22,6 +24,7 @@ animation.setSpeed(speed);
 //  Return - Makes animation from min value to max value and returns to min value
 //  Reverse - Makes animation from min value to max value, then returns to min value and again makes animation from min value to max value, it repeats infinitely
 //  Restart - Makes animation from min value to max value and it repeats infinitely
+//  NoDelay - Makes animation without delay
 animation.setAnimationMode(mode);
 
 //Updates animation
