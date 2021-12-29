@@ -1,11 +1,14 @@
 package cz.hydradev.AnimationUtil;
 
+import cz.hydradev.hydraclient.Client;
+
 public class Animation {
 
 	private double minValue, maxValue, value;
 	private long speed;
-	private boolean enbl = true, rev;
+	private boolean enbl = true, rev, done;
 	private AnimationMode mode;
+	private AnimationMode mode2;
 	
 	private TimerUtil timer = new TimerUtil();
 	
@@ -15,6 +18,7 @@ public class Animation {
 		this.value = minVal;
 		this.speed = speed;
 		this.mode = AnimationMode.End;
+		this.done = false;
 	}
 	
 	public Animation(double minVal, double maxVal, long speed, AnimationMode mode) {
@@ -23,6 +27,18 @@ public class Animation {
 		this.value = minVal;
 		this.speed = speed;
 		this.mode = mode;
+		this.mode2 = mode;
+		this.done = false;
+	}
+	
+	public Animation(double minVal, double maxVal, long speed, AnimationMode mode, AnimationMode mode2) {
+		this.minValue = minVal;
+		this.maxValue = maxVal;
+		this.value = minVal;
+		this.speed = speed;
+		this.mode = mode;
+		this.mode2 = mode2;
+		this.done = false;
 	}
 
 	/**
@@ -66,6 +82,7 @@ public class Animation {
 						value++;
 					}else if(value >= maxValue) {
 						value = maxValue;
+						done = true;
 					}
 				}
 				break;
@@ -81,15 +98,78 @@ public class Animation {
 						if(value <= maxValue && value > minValue) {
 							value--;
 						}else if(value == minValue) {
-							//value = minValue;
+							done = true;
 						}
 					}
+				}
+				break;
+			case NoDelay:
+				switch(mode2) {
+				case End:
+					if(!(value >= maxValue) && !(value < minValue)) {
+						value++;
+					}else if(value >= maxValue) {
+						value = maxValue;
+						done = true;
+					}
+					break;
+				case NoDelay:
+					break;
+				case Restart:
+					if(timer.wait(speed, true)) {
+						if(!(value >= maxValue) && !(value < minValue)) {
+							value++;
+						}else if(value >= maxValue) {
+							value = minValue;
+						}
+					}
+					break;
+				case Return:
+					if(!rev) {
+						if(!(value >= maxValue) && !(value < minValue)) {
+							value++;
+						}else if(value >= maxValue) {
+							rev = true;
+						}
+					}else {
+						if(value <= maxValue && value > minValue) {
+							value--;
+						}else if(value == minValue) {
+							done = true;
+						}
+					}
+					break;
+				case Reverse:
+					if(!rev) {
+						if(!(value >= maxValue) && !(value < minValue)) {
+							value++;
+						}else if(value >= maxValue) {
+							rev = true;
+						}
+					}else {
+						if(value <= maxValue && !(value < minValue)) {
+							value--;
+						}else if(value <= minValue) {
+							rev = false;
+							if(value < minValue) {
+								value = minValue;
+							}
+						}
+					}
+					break;
+				default:
+					break;
+				
 				}
 				break;
 			default:
 				break;
 			}
 		}
+	}
+	
+	public boolean isDone() {
+		return this.done;
 	}
 	
 	/**
@@ -113,6 +193,7 @@ public class Animation {
 	public void reset() {
 		rev = false;
 		value = minValue;
+		done = false;
 	}
 	
 	/**
